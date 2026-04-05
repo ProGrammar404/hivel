@@ -19,7 +19,7 @@ import tiktoken
 from typing import Optional
 
 
-# Max tokens allowed per LLM call (assignment constraint)
+# Max tokens allowed per LLM call
 MAX_TOKENS = 16000
 
 # Reserve some tokens for the prompt template wrapping each section

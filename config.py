@@ -11,11 +11,11 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY not found. Please set it in .env file.")
 
-# Max tokens per single LLM call (as per assignment constraint)
+# Max tokens per single LLM call
 MAX_TOKENS_PER_CALL = 16000
 
 # Gemini model configuration
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-2.0-flash"
 
 # Rate limiting: Gemini free tier = 15 RPM
 MIN_DELAY_BETWEEN_CALLS = 5  # seconds between LLM calls

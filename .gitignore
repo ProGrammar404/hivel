@@ -33,7 +33,7 @@ Thumbs.db
 *.log
 logs/
 
-# Reports output (keep sample, ignore auto-generated)
+# Reports output
 report/output_*.md
 report/output_*.pdf
 
