@@ -36,3 +36,6 @@ logs/
 # Reports output (keep sample, ignore auto-generated)
 report/output_*.md
 report/output_*.pdf
+
+# PDFs
+*.pdf
