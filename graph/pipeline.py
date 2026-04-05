@@ -126,15 +126,6 @@ def report_node(state: PaperState) -> dict:
 
 
 # ─────────────────────────────────────────────
-# Fan-out / Fan-in for Parallel Agent Execution
-# ─────────────────────────────────────────────
-
-def route_to_agents(state: PaperState) -> list[str]:
-    """After decomposition, fan out to all 5 agents in parallel."""
-    return ["consistency", "grammar", "novelty", "factcheck", "authenticity"]
-
-
-# ─────────────────────────────────────────────
 # Build the Graph
 # ─────────────────────────────────────────────
 
@@ -157,18 +148,13 @@ def build_pipeline() -> StateGraph:
     graph.add_edge(START, "scrape")
     graph.add_edge("scrape", "decompose")
 
-    # Fan-out: decompose → all 5 agents in parallel
-    graph.add_conditional_edges(
-        "decompose",
-        route_to_agents,
-        ["consistency", "grammar", "novelty", "factcheck", "authenticity"],
-    )
-
-    # Fan-in: all 5 agents → report
-    graph.add_edge("consistency", "report")
-    graph.add_edge("grammar", "report")
-    graph.add_edge("novelty", "report")
-    graph.add_edge("factcheck", "report")
+    # Sequential agent execution (respects Gemini free-tier rate limits)
+    # Each agent runs one after another to avoid 429 errors
+    graph.add_edge("decompose", "consistency")
+    graph.add_edge("consistency", "grammar")
+    graph.add_edge("grammar", "novelty")
+    graph.add_edge("novelty", "factcheck")
+    graph.add_edge("factcheck", "authenticity")
     graph.add_edge("authenticity", "report")
 
     # Report → END

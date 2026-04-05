@@ -5,7 +5,8 @@ Central state object that flows through the entire pipeline.
 Each node reads from and writes to this state.
 """
 
-from typing import TypedDict, Optional
+import operator
+from typing import Annotated, TypedDict, Optional
 
 
 class PaperState(TypedDict, total=False):
@@ -48,4 +49,4 @@ class PaperState(TypedDict, total=False):
     final_report: str           # Generated Markdown report
 
     # ── Error Tracking ──
-    errors: list[str]           # Collect any errors during pipeline execution
+    errors: Annotated[list[str], operator.add]  # Collect any errors (supports parallel writes)
